@@ -1,0 +1,155 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Data Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>SMART EXPENSES TRACKER</h2>
+    
+    <!-- 1. FORM SECTION -->
+    <div class="form-container">
+        <form id="userForm">
+            <div class="form-group">
+                <label for="name"> (AMOUNT):</label>
+                <input type="numericfield" id="name" required placeholder="ENTRE ANOUNT">
+            </div>
+            <div class="form-group">
+               
+                 <label for="categories">Choose a category:</label>
+<select id="categories" name="categories">
+ 
+    <option value="food">food</option>
+    <option value="travel">travel</option>
+     <option value="bill">bill</option>
+    <option value="other">other</option>
+  </optgroup>
+            </div>
+           <div class="form-popup" id="datePopup">
+  <form>
+    <label for="trip-date">Date:</label>
+    <input type="date" id="trip-date" name="trip-date"> 
+  </form>
+            <div class="form-group">
+                <label for="text"> (NOTE):</label>
+                <input type="text" id="text" required placeholder="blank field">
+            </div>
+            <button type="submit"> (Submit)</button>
+        </form>
+       
+
+    <h2>(Submitted Data)</h2>
+    
+    <!-- 2. DATA TABLE SECTION -->
+    <table>
+        <thead>
+            <tr>
+                <th>AMOUNT</th>
+                <th>CATOGARY</th>
+                    <th>DATE</th></th>
+                <th>NOTE</th>
+            </tr>
+        </thead>
+        <tbody id="dataTableBody">
+            <!-- यहाँ JavaScript के ज़रिए सारा डेटा ऑटोमैटिक दिखेगा -->
+        </tbody>
+    </table>
+
+    <!-- 3. JAVASCRIPT SECTION -->
+    <script>
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            // Form submit form submitted infomation will loaded
+            event.preventDefault();
+
+            // Form Fields numeric field
+            const amount = document.getElementById('name').value;
+            const category = document.getElementById('categories').value;
+            const date = document.getElementById('trip-date').value;
+            const note = document.getElementById('text').value;
+            // to select table body
+            const tableBody = document.getElementById('dataTableBody');
+
+            //creat a new row
+            const newRow = document.createElement('tr');
+
+            //upload form data
+            newRow.innerHTML = `
+                <td>${amount}</td>
+                <td>${category}</td>
+                <td>${date}</td>
+                <td>${note}</td>
+            `;
+
+            //add new row in a table 
+            tableBody.appendChild(newRow);
+
+            //to be submmit data form will automatically update  (Reset) 
+            document.getElementById('userForm').reset();
+        });
+    </script>
+
+</body>
+</html>
