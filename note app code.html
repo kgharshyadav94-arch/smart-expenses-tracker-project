@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Notes App</title>
+<style>
+    body { font-family: Arial; margin: 20px; }
+    input, textarea { width: 100%; margin: 8px 0; padding: 10px; }
+    .note { border: 1px solid #ccc; padding: 10px; margin-top: 10px; }
+    .deleted { background: #ffe6e6; }
+    button { padding: 8px 15px; margin-right: 10px; }
+</style>
+</head>
+<body>
+
+<h2>Notes management Application</h2>
+
+    
+
+<input id="search" placeholder="Search notes...">
+
+<input id="title" placeholder="Title">
+<textarea id="content" placeholder="Content"></textarea>
+<input id="description" placeholder="Description">
+<button onclick="document.getElementById('myForm').reset();">Reset</button>
+
+<button onclick="addNote()">Submit</button>
+<button onclick="deleteNote()">Delete</button>
+
+<h3>All Notes</h3>
+<div id="notes"><!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Form Example</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { padding: 8px; width: 250px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px 15px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        #output { margin-top: 25px; padding: 15px; border: 1px solid #ddd; background-color: #f9f9f9; border-radius: 4px; display: none; }
+    </style>
+</head>
+<body>
+
+    <h2>fill details</h2>
+    
+    <!-- फॉर्म एलिमेंट -->
+    <div class="form-group">
+        <label for="name">NAME:</label>
+        <input type="text" id="name" placeholder="ENTIRE TEXT">
+    </div>
+    
+    <div class="form-group">
+        <label for="email">EMAIL:</label>
+        <input type="email" id="email" placeholder="ENTER YOUR EMAIL">
+    </div>
+
+    <button onclick="showData()">Submit</button>
+
+    <!-- नीचे डेटा दिखाने के लिए बॉक्स -->
+    <div id="output">
+        <h3>जमा किया गया डेटा (Submitted Data):</h3>
+        <p><strong>नाम:</strong> <span id="displayName"></span></p>
+        <p><strong>ईमेल:</strong> <span id="displayEmail"></span></p>
+    </div>
+
+    <script>
+        function showData() {
+            // 1. इनपुट बॉक्स से वैल्यू निकालना
+            var nameValue = document.getElementById("name").value;
+            var emailValue = document.getElementById("email").value;
+
+            // 2. चेक करना कि यूजर ने कुछ लिखा है या नहीं
+            if (nameValue === "" || emailValue === "") {
+                alert("कृपया सभी फील्ड भरें!");
+                return;
+            }
+
+            // 3. नीचे वाले सेक्शन में डेटा डालना
+            document.getElementById("displayName").innerText = nameValue;
+            document.getElementById("displayEmail").innerText = emailValue;
+
+            // 4. नीचे वाले बॉक्स को स्क्रीन पर दिखाना (Display Block करना)
+            document.getElementById("output").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
+</div>
+
+<script>
+let notes = [];
+let deletedNotes = [];
+
+function addNote() {
+    const title = document.getElementById("title").value;
+    const content = document.getElementById("content").value;
+    const description = document.getElementById("description").value;
+
+    if (!title || !content) return alert("Title और Content जरूरी है!");
+
+    const note = { id: Date.now(), title, content, description };
+    notes.push(note);
+    displayNotes();
+}
+
+function deleteNote(id) {
+    const note = notes.find(n => n.id === id);
+    deletedNotes.push(note);
+    notes = notes.filter(n => n.id !== id);
+    displayNotes();
+}
+
+function restoreNote(id) {
+    const note = deletedNotes.find(n => n.id === id);
+    notes.push(note);
+    deletedNotes = deletedNotes.filter(n => n.id !== id);
+    displayNotes();
+}
+
+function displayNotes() {
+    const search = document.getElementById("search").value.toLowerCase();
+    const container = document.getElementById("notes");
+    container.innerHTML = "";
+
+    [...notes, ...deletedNotes].forEach(note => {
+        if (!note.title.toLowerCase().includes(search)) return;
+
+        const div = document.createElement("div");
+        div.className = "note" + (deletedNotes.includes(note) ? " deleted" : "");
+        div.innerHTML = `
+            <h4>${note.title}</h4>
+            <p>${note.content}</p>
+            <small>${note.description}</small><br><br>
+            ${deletedNotes.includes(note)
+                ? `<button onclick="restoreNote(${note.id})">Restore</button>`
+                : `<button onclick="deleteNote(${note.id})">Delete</button>`}
+        `;
+        container.appendChild(div);
+    });
+}
+</script>
+
+</body>
+</html>
